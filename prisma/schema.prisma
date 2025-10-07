@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Bank {
+  id             Int           @id @default(autoincrement())
+  account_number String        @unique
+  bank_name      String
+  balance        Float         @default(0)
+  account_holder String
+
+  transactions   Transaction[]
+}
+
+model Category {
+  id               Int           @id @default(autoincrement())
+  category_name    String        @unique
+
+  transactions     Transaction[]
+}
+
+model Transaction {
+  id           Int       @id @default(autoincrement())
+  amount       Float
+  description  String?
+  image        String?
+  createdAt    DateTime  @default(now())
+
+  // Relasi
+  bank         Bank      @relation(fields: [bankId], references: [id])
+  bankId       Int
+
+  category     Category  @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+}
+
+model Debt {
+  id          Int       @id @default(autoincrement())
+  description String
+  amount      Float
+  date        DateTime
+  createdAt   DateTime  @default(now())
+}
+
+model Receivable {
+  id          Int       @id @default(autoincrement())
+  description String
+  amount      Float
+  date        DateTime
+  createdAt   DateTime  @default(now())
+}
