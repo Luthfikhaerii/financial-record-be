@@ -1,4 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class BankService {}
+export class BankService {
+    constructor(private prisma: PrismaService){}
+
+    async getBank(){
+        const data = await this.prisma
+    }
+}
