@@ -36,7 +36,13 @@ export class UserController {
     }
 
     @Delete('logout')
-    async logout(){
-        
+    async logout(@Res({passthrough:true}) res:express.Response){
+        res.clearCookie('token',{
+            httpOnly:true,
+            path:'/',
+            secure:true,
+            sameSite:'none'
+        })
+        return {message:"logout success!"}
     }
 }
