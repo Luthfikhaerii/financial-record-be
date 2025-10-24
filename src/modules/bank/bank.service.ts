@@ -3,9 +3,9 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class BankService {
-    constructor(private prisma: PrismaService){}
+    // constructor(private prisma: PrismaService){}
 
     async getBank(){
-        const data = await this.prisma
+        
     }
 }
