@@ -21,6 +21,19 @@ export class UserController {
 
     }
 
+    @Post('register')
+    async register(@Body() body:any,@Res({passthrough:true}) res: express.Response){
+        const data = await this.userService.register(body)
+        res.cookie('token',data.token,{
+            httpOnly:true,
+            sameSite:'none',
+            path:"/",
+            secure:true
+        })
+        return {message:"login success!",data:data.user}
+
+    }
+
     @Get("me")
     async me(@Req() req:express.Request){
         const {token} = req.cookies

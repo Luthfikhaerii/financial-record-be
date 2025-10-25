@@ -22,6 +22,20 @@ export class UserService {
             username: response.username
         })
 
-        return {token,response}
+        return { token, response }
+    }
+
+    async register(body: any) {
+        const user = await this.prisma.user.create({
+            data: {
+                ...body
+            }
+        })
+        const token = this.authService.generateToken({
+            email: user.email,
+            role: user.role,
+            username: user.username
+        })
+        return { token, user }
     }
 }
